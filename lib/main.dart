@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -8,6 +9,7 @@ import 'package:web_socket_channel/web_socket_channel.dart';
 
 import 'core/strings.dart';
 import 'core/themedata.dart';
+import 'firebase_options.dart';
 import 'models/message_model.dart';
 import 'presentation/auth/bloc/authentication_bloc.dart';
 import 'presentation/auth/screens/Login/login_screen.dart';
@@ -37,6 +39,9 @@ void main() async {
       encryptionCipher: HiveAesCipher(encryptionKey));
   await Hive.openBox<UserModel>(hiveUsersBox,
       encryptionCipher: HiveAesCipher(encryptionKey));
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MyApp());
 }
 

@@ -1,8 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import '../../../core/strings.dart';
 import 'package:hive/hive.dart';
 
+import '../../../core/strings.dart';
 import '../user_model/user_model.dart';
 
 part 'authentication_event.dart';
