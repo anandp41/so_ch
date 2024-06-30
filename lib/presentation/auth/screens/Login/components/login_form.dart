@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'package:so_ch/presentation/auth/screens/common/custom_snackbar.dart';
+
 import '../../../../../core/padding.dart';
+import '../../../../../core/strings.dart';
 import '../../../bloc/authentication_bloc.dart';
 import '../../../components/already_have_an_account_acheck.dart';
 import '../../Signup/signup_screen.dart';
@@ -19,10 +22,7 @@ class LoginForm extends StatelessWidget {
     return BlocListener<AuthenticationBloc, AuthenticationState>(
       listener: (context, state) {
         if (state is AuthenticationFailure) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-                content: Text('Login failed: Incorrect credentials')),
-          );
+          customSnackbar(message: logInFailString, title: snackbarErrorString);
         } else if (state is AuthenticationAuthenticated) {
           _emailController.clear();
           _passwordController.clear();

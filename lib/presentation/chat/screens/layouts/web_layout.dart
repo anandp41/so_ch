@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../../core/colors.dart';
+import '../../../../core/colors.dart';
 import '../widgets/chat_box.dart';
 
 class WebLayout extends StatelessWidget {

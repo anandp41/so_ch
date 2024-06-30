@@ -4,6 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
@@ -14,8 +15,8 @@ import 'models/message_model.dart';
 import 'presentation/auth/bloc/authentication_bloc.dart';
 import 'presentation/auth/screens/Login/login_screen.dart';
 import 'presentation/auth/user_model/user_model.dart';
-import 'presentation/home/chat/bloc/web_socket_bloc.dart';
-import 'presentation/home/chat/screens/home_screen.dart';
+import 'presentation/chat/bloc/web_socket_bloc.dart';
+import 'presentation/chat/screens/layouts/web_layout.dart';
 
 void main() async {
   await Hive.initFlutter();
@@ -30,7 +31,6 @@ void main() async {
   String? keyFromSecureStorage =
       await secureStorage.read(key: encryptionKeyString);
   var encryptionKey = base64Url.decode(keyFromSecureStorage!);
-
   Hive.registerAdapter(MessageModelAdapter());
   Hive.registerAdapter(UserModelAdapter());
   await Hive.openBox(hiveAuthBoxName,
@@ -66,14 +66,14 @@ class MyApp extends StatelessWidget {
             }
             return WebSocketBloc(
               channel: WebSocketChannel.connect(
-                Uri.parse('wss://echo.websocket.events/.ws'),
+                Uri.parse(webSocketUrl),
               ),
               loggedInEmail: loggedInEmail,
             );
           },
         ),
       ],
-      child: MaterialApp(
+      child: GetMaterialApp(
         debugShowCheckedModeBanner: false,
         title: appTitle,
         theme: defaultThemeData,
@@ -91,9 +91,10 @@ class App extends StatelessWidget {
     return BlocBuilder<AuthenticationBloc, AuthenticationState>(
       builder: (context, state) {
         if (state is AuthenticationAuthenticated) {
-          return const HomeScreen();
+          return const WebLayout();
         } else {
           return const LoginScreen();
+          //return const WelcomeScreen();
         }
       },
     );

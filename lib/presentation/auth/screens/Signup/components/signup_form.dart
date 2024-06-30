@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:so_ch/core/strings.dart';
+import 'package:so_ch/presentation/auth/screens/common/custom_snackbar.dart';
 
 import '../../../../../core/colors.dart';
 import '../../../../../core/padding.dart';
@@ -24,10 +26,7 @@ class SignUpForm extends StatelessWidget {
           _passwordController.clear();
           Navigator.pop(context); // Go back to login page on success
         } else if (state is SignUpFailure) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-                content: Text('Sign up failed: User already exists')),
-          );
+          customSnackbar(message: signUpFailString, title: snackbarErrorString);
         }
       },
       child: Form(

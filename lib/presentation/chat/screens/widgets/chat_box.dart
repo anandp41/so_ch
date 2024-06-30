@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:so_ch/core/border_radius.dart';
 
-import '../../../../../core/colors.dart';
+import '../../../../core/colors.dart';
 import '../../bloc/web_socket_bloc.dart';
 import 'chat_list.dart';
 import 'web_chat_appbar.dart';
@@ -24,9 +25,6 @@ class ChatBox extends StatelessWidget {
       padding: const EdgeInsets.all(10),
       decoration: const BoxDecoration(
         color: kSecondaryColor,
-        border: Border(
-          left: BorderSide(color: dividerColor),
-        ),
       ),
       child: Column(
         children: [
@@ -38,8 +36,9 @@ class ChatBox extends StatelessWidget {
           Container(
             height: MediaQuery.of(context).size.height * 0.07,
             constraints: const BoxConstraints(minHeight: 50),
-            decoration: const BoxDecoration(
-              border: Border(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(borderRadius),
+              border: const Border(
                 bottom: BorderSide(color: dividerColor),
               ),
               color: kPrimaryColor,
@@ -55,12 +54,13 @@ class ChatBox extends StatelessWidget {
                       right: 15,
                     ),
                     child: TextField(
+                      style: TextStyle(color: kPrimaryLightColor),
                       controller: messageController,
                       decoration: InputDecoration(
                         filled: true,
                         fillColor: kSecondaryColor,
                         hintText: 'Type a message',
-                        hintStyle: const TextStyle(color: kPrimaryLightColor),
+                        hintStyle: const TextStyle(color: hintTextColor),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(20.0),
                           borderSide: const BorderSide(

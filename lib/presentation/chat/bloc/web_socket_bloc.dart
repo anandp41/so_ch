@@ -5,8 +5,8 @@ import 'package:equatable/equatable.dart';
 import 'package:hive/hive.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
-import '../../../../core/strings.dart';
-import '../../../../models/message_model.dart';
+import '../../../core/strings.dart';
+import '../../../models/message_model.dart';
 
 part 'web_socket_event.dart';
 part 'web_socket_state.dart';

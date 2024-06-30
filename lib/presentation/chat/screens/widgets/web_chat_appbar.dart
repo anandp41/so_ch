@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../core/border_radius.dart';
-import '../../../../../core/colors.dart';
-import '../../../../../core/strings.dart';
-import '../../../../auth/bloc/authentication_bloc.dart';
+import '../../../../core/border_radius.dart';
+import '../../../../core/colors.dart';
+import '../../../../core/strings.dart';
+import '../../../auth/bloc/authentication_bloc.dart';
 
 class ChatAppBar extends StatelessWidget {
   const ChatAppBar({Key? key}) : super(key: key);
@@ -13,9 +13,11 @@ class ChatAppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: MediaQuery.of(context).size.height * 0.077,
-      // width: MediaQuery.of(context).size.width * 0.75,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(borderRadius),
+        color: kPrimaryColor,
+      ),
       padding: const EdgeInsets.all(10.0),
-      color: kPrimaryColor,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [

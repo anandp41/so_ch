@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:so_ch/core/textstyles.dart';
 
-import '../../../../../core/colors.dart';
+import '../../../../core/colors.dart';
+import '../../../../core/strings.dart';
 import '../../bloc/web_socket_bloc.dart';
 import 'my_message_card.dart';
 import 'sender_message_card.dart';
@@ -36,7 +38,10 @@ class ChatList extends StatelessWidget {
             };
           }).toList();
           if (messages.isEmpty) {
-            return const Text("Send a message to get an echo from the server");
+            return const Text(
+              messageToDisplayIfChatIsEmpty,
+              style: myMessageCardTextstyle,
+            );
           } else {
             return ListView.builder(
               controller: scrollController,
