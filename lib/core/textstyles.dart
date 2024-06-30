@@ -6,3 +6,8 @@ const myMessageCardTextstyle =
 const senderMessageCardTextstyle = TextStyle(
   fontSize: 16,
 );
+const chatDateTextStyle = TextStyle(
+    fontWeight: FontWeight.w400,
+    overflow: TextOverflow.ellipsis,
+    color: Colors.white70,
+    fontSize: 12);

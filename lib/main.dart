@@ -14,6 +14,7 @@ import 'firebase_options.dart';
 import 'models/message_model.dart';
 import 'presentation/auth/bloc/authentication_bloc.dart';
 import 'presentation/auth/screens/Login/login_screen.dart';
+import 'presentation/auth/screens/Welcome/welcome_screen.dart';
 import 'presentation/auth/user_model/user_model.dart';
 import 'presentation/chat/bloc/web_socket_bloc.dart';
 import 'presentation/chat/screens/layouts/web_layout.dart';
@@ -91,9 +92,10 @@ class App extends StatelessWidget {
       builder: (context, state) {
         if (state is AuthenticationAuthenticated) {
           return const WebLayout();
-        } else {
+        } else if (state is SignUpSuccess) {
           return const LoginScreen();
-          //return const WelcomeScreen();
+        } else {
+          return const WelcomeScreen();
         }
       },
     );

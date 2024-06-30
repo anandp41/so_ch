@@ -1,6 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
-
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -34,16 +32,11 @@ class WebSocketBloc extends Bloc<WebSocketEvent, WebSocketState> {
       add(ReceiveMessage(data));
     });
     authStateChanges.listen((authState) {
-      // Debugging
       if (authState is AuthenticationAuthenticated) {
         loggedInEmail = authState.email;
         add(InitializeMessages());
-        // Debugging
-        // ... potentially use the email for WebSocket connection ...
       } else if (authState is AuthenticationUnauthenticated) {
         loggedInEmail = '';
-        // Debugging
-        // ... potentially close or reset the WebSocket connection ...
       }
     });
   }
@@ -102,11 +95,8 @@ class WebSocketBloc extends Bloc<WebSocketEvent, WebSocketState> {
 List<MessageModel> chatMessagesInvolvingLoggedInUser(
     {required List<MessageModel> messagesInHive,
     required String loggedInEmail}) {
-  log("Works");
-  log(messagesInHive.length.toString());
   List<MessageModel> result = [];
   for (var eachMessage in messagesInHive) {
-    log("LogEmail: $loggedInEmail| Receiver:${eachMessage.receiverEmail} | Sender: ${eachMessage.senderEmail}|Message: ${eachMessage.text}");
     if (eachMessage.senderEmail == loggedInEmail ||
         eachMessage.receiverEmail == loggedInEmail) {
       result.add(eachMessage);
