@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../../common/debouncer.dart';
 import '../../common/custom_snackbar.dart';
 
 import '../../../../../core/padding.dart';
@@ -19,10 +20,14 @@ class LoginForm extends StatelessWidget {
   final TextEditingController _passwordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    final Debouncer debouncer = Debouncer();
     return BlocListener<AuthenticationBloc, AuthenticationState>(
       listener: (context, state) {
         if (state is AuthenticationFailure) {
-          customSnackbar(message: logInFailString, title: snackbarErrorString);
+          debouncer.run(() {
+            customSnackbar(
+                message: logInFailString, title: snackbarErrorString);
+          });
         } else if (state is AuthenticationAuthenticated) {
           _emailController.clear();
           _passwordController.clear();
@@ -59,11 +64,9 @@ class LoginForm extends StatelessWidget {
                   MaterialPageRoute(builder: (context) => const SignUpScreen()),
                 );
                 if (result == 'SignUpSuccess') {
-                  // ignore: use_build_context_synchronously
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                        content: Text('Sign up successful! Please log in.')),
-                  );
+                  debouncer.run(() {
+                    customSnackbar(message: signUpSuccessString);
+                  });
                 }
               },
             ),

@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:hive/hive.dart';
@@ -41,7 +39,6 @@ class AuthenticationBloc
       emit(AuthenticationAuthenticated(email: event.email));
     } else {
       emit(AuthenticationFailure());
-      log('emit failure');
       emit(AuthenticationUnauthenticated());
     }
   }
@@ -65,6 +62,7 @@ class AuthenticationBloc
       emit(SignUpSuccess());
     } else {
       emit(SignUpFailure());
+      emit(NotSignedUp());
     }
   }
 }

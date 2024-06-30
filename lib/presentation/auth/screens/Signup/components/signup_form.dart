@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../../common/debouncer.dart';
 import '../../../../../core/strings.dart';
 import '../../common/custom_snackbar.dart';
 
@@ -19,6 +20,7 @@ class SignUpForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final debouncer = Debouncer();
     return BlocListener<AuthenticationBloc, AuthenticationState>(
       listener: (context, state) {
         if (state is SignUpSuccess) {
@@ -26,7 +28,10 @@ class SignUpForm extends StatelessWidget {
           _passwordController.clear();
           Navigator.pop(context); // Go back to login page on success
         } else if (state is SignUpFailure) {
-          customSnackbar(message: signUpFailString, title: snackbarErrorString);
+          debouncer.run(() {
+            customSnackbar(
+                message: signUpFailString, title: snackbarErrorString);
+          });
         }
       },
       child: Form(

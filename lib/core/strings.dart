@@ -11,6 +11,7 @@ const server = 'Server';
 const encryptionKeyString = 'encryptionKey';
 const webSocketUrl = 'wss://echo.websocket.events/.ws';
 const logInFailString = 'Login failed: Incorrect credentials';
+const signUpSuccessString = 'Sign up successful! Please log in.';
 const signUpFailString = 'Sign up failed: User already exists';
 const snackbarErrorString = "Error";
 const messageToDisplayIfChatIsEmpty =

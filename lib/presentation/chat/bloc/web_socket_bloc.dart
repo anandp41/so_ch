@@ -1,12 +1,15 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive/hive.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
 import '../../../core/strings.dart';
 import '../../../models/message_model.dart';
+import '../../auth/bloc/authentication_bloc.dart';
 
 part 'web_socket_event.dart';
 part 'web_socket_state.dart';
@@ -30,9 +33,13 @@ class WebSocketBloc extends Bloc<WebSocketEvent, WebSocketState> {
       add(ReceiveMessage(data));
     });
   }
+
   void _onInitializeMessages(
       InitializeMessages event, Emitter<WebSocketState> emit) {
-    emit(WebSocketMessageReceived(messages: _messageBox.values.toList()));
+    emit(WebSocketMessageReceived(
+        messages: chatMessagesInvolvingLoggedInUser(
+            messagesInHive: _messageBox.values.toList(),
+            loggedInEmail: loggedInEmail)));
   }
 
   Future<void> _onSendMessage(
@@ -45,7 +52,10 @@ class WebSocketBloc extends Bloc<WebSocketEvent, WebSocketState> {
 
     channel.sink.add(message.toJson());
     await _messageBox.add(message);
-    emit(WebSocketMessageReceived(messages: _messageBox.values.toList()));
+    emit(WebSocketMessageReceived(
+        messages: chatMessagesInvolvingLoggedInUser(
+            messagesInHive: _messageBox.values.toList(),
+            loggedInEmail: loggedInEmail)));
   }
 
   Future<void> _onReceiveMessage(
@@ -60,7 +70,10 @@ class WebSocketBloc extends Bloc<WebSocketEvent, WebSocketState> {
           senderEmail: message.receiverEmail);
 
       await _messageBox.add(newMessage);
-      emit(WebSocketMessageReceived(messages: _messageBox.values.toList()));
+      emit(WebSocketMessageReceived(
+          messages: chatMessagesInvolvingLoggedInUser(
+              messagesInHive: _messageBox.values.toList(),
+              loggedInEmail: loggedInEmail)));
     }
   }
 
@@ -70,4 +83,21 @@ class WebSocketBloc extends Bloc<WebSocketEvent, WebSocketState> {
     channel.sink.close();
     return super.close();
   }
+}
+
+List<MessageModel> chatMessagesInvolvingLoggedInUser(
+    {required List<MessageModel> messagesInHive,
+    required String loggedInEmail}) {
+  log("Works");
+  log(messagesInHive.length.toString());
+  List<MessageModel> result = [];
+  for (var eachMessage in messagesInHive) {
+    log("LogEmail: $loggedInEmail| Receiver:${eachMessage.receiverEmail} | Sender: ${eachMessage.senderEmail}|Message: ${eachMessage.text}");
+    if (eachMessage.senderEmail == loggedInEmail ||
+        eachMessage.receiverEmail == loggedInEmail) {
+      result.add(eachMessage);
+    }
+  }
+
+  return result;
 }
