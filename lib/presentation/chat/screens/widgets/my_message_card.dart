@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:so_ch/core/textstyles.dart';
+import '../../../../core/textstyles.dart';
 
 import '../../../../core/border_radius.dart';
 import '../../../../core/colors.dart';

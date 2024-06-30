@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:so_ch/core/textstyles.dart';
+import '../../../../core/border_radius.dart';
+import '../../../../core/textstyles.dart';
 
 import '../../../../core/colors.dart';
 import '../../../../core/strings.dart';
 import '../../bloc/web_socket_bloc.dart';
+import 'functions.dart';
 import 'my_message_card.dart';
 import 'sender_message_card.dart';
 
@@ -43,19 +45,47 @@ class ChatList extends StatelessWidget {
               style: myMessageCardTextstyle,
             );
           } else {
+            String? date = '';
             return ListView.builder(
               controller: scrollController,
               itemCount: messages.length,
               itemBuilder: (context, index) {
-                if (messages[index]['isMe'] == true) {
-                  return MyMessageCard(
-                    message: messages[index]['text'].toString(),
-                    date: messages[index]['time'].toString(),
-                  );
+                bool printDate = false;
+                String newDate = groupMessageDateAndTime(state
+                        .messages[index].time.microsecondsSinceEpoch
+                        .toString())
+                    .toString();
+                if (date != newDate) {
+                  date = newDate;
+                  printDate = true;
                 }
-                return SenderMessageCard(
-                  message: messages[index]['text'].toString(),
-                  date: messages[index]['time'].toString(),
+                return Column(
+                  children: [
+                    if (printDate)
+                      Center(
+                          child: Container(
+                              decoration: BoxDecoration(
+                                  color: chatScreenDateBg,
+                                  borderRadius:
+                                      BorderRadius.circular(borderRadius)),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  newDate,
+                                  style: chatDateTextStyle,
+                                ),
+                              ))),
+                    if (messages[index]['isMe'] == true)
+                      MyMessageCard(
+                        message: messages[index]['text'].toString(),
+                        date: messages[index]['time'].toString(),
+                      )
+                    else
+                      SenderMessageCard(
+                        message: messages[index]['text'].toString(),
+                        date: messages[index]['time'].toString(),
+                      )
+                  ],
                 );
               },
             );

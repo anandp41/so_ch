@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:so_ch/core/border_radius.dart';
+import '../../../../core/border_radius.dart';
 
 import '../../../../core/colors.dart';
 import '../../bloc/web_socket_bloc.dart';
