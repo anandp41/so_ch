@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../bloc/web_socket_bloc.dart';
 
 import '../../../../core/border_radius.dart';
 import '../../../../core/colors.dart';
-import '../../../../core/strings.dart';
 import '../../../auth/bloc/authentication_bloc.dart';
 
 class ChatAppBar extends StatelessWidget {
@@ -21,9 +21,9 @@ class ChatAppBar extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          const Text(
-            chatAppBarTitle,
-            style: TextStyle(fontSize: 18, color: kPrimaryLightColor),
+          Text(
+            context.read<WebSocketBloc>().loggedInEmail,
+            style: const TextStyle(fontSize: 18, color: kPrimaryLightColor),
           ),
           // IconButton(
           //   onPressed: () {

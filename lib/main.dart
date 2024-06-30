@@ -58,19 +58,17 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider<WebSocketBloc>(
           create: (context) {
-            final authBloc = BlocProvider.of<AuthenticationBloc>(
-                context); // Access authBloc here
-            final authState = authBloc.state;
-            String loggedInEmail = '';
-            if (authState is AuthenticationAuthenticated) {
-              loggedInEmail = authState.email;
-            }
+            final authBloc = BlocProvider.of<AuthenticationBloc>(context);
+            // final authState = authBloc.state;
+            // String loggedInEmail = '';
+            // if (authState is AuthenticationAuthenticated) {
+            //   loggedInEmail = authState.email;
+            // }
             return WebSocketBloc(
-              channel: WebSocketChannel.connect(
-                Uri.parse(webSocketUrl),
-              ),
-              loggedInEmail: loggedInEmail,
-            );
+                channel: WebSocketChannel.connect(
+                  Uri.parse(webSocketUrl),
+                ),
+                authStateChanges: authBloc.stream);
           },
         ),
       ],

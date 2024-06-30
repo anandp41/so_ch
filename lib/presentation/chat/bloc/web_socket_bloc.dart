@@ -18,8 +18,9 @@ class WebSocketBloc extends Bloc<WebSocketEvent, WebSocketState> {
   final WebSocketChannel channel;
   late StreamSubscription _subscription;
   final Box<MessageModel> _messageBox;
-  final String loggedInEmail;
-  WebSocketBloc({required this.channel, required this.loggedInEmail})
+  String loggedInEmail = '';
+  final Stream<AuthenticationState> authStateChanges;
+  WebSocketBloc({required this.channel, required this.authStateChanges})
       : _messageBox = Hive.box<MessageModel>(hiveMessagesBox),
         super(WebSocketInitial()) {
     on<InitializeMessages>(_onInitializeMessages);
@@ -31,6 +32,19 @@ class WebSocketBloc extends Bloc<WebSocketEvent, WebSocketState> {
 
     _subscription = channel.stream.listen((data) {
       add(ReceiveMessage(data));
+    });
+    authStateChanges.listen((authState) {
+      // Debugging
+      if (authState is AuthenticationAuthenticated) {
+        loggedInEmail = authState.email;
+        add(InitializeMessages());
+        // Debugging
+        // ... potentially use the email for WebSocket connection ...
+      } else if (authState is AuthenticationUnauthenticated) {
+        loggedInEmail = '';
+        // Debugging
+        // ... potentially close or reset the WebSocket connection ...
+      }
     });
   }
 

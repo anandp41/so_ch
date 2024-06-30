@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:so_ch/core/strings.dart';
-import 'package:so_ch/presentation/auth/screens/common/custom_snackbar.dart';
+import '../../../../../core/strings.dart';
+import '../../common/custom_snackbar.dart';
 
+import '../../../../../common/debouncer.dart';
 import '../../../../../core/colors.dart';
 import '../../../../../core/padding.dart';
 import '../../../bloc/authentication_bloc.dart';
