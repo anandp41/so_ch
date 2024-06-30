@@ -7,4 +7,3 @@ const threeDotsColor = Colors.grey;
 const messageColor = Color.fromRGBO(138, 27, 136, 1);
 const dividerColor = Color.fromRGBO(138, 142, 144, 1);
 const hintTextColor = Color.fromARGB(255, 184, 178, 178);
-const chatScreenDateBg = Color.fromARGB(255, 87, 88, 89);

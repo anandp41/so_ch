@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import '../../../../core/border_radius.dart';
 import '../../../../core/colors.dart';
 
